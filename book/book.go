@@ -8,10 +8,10 @@ type Book struct {
 func NewBook(id int, name string) *Book {
 	return &Book{id, name}
 }
-func (b *Book) Id() int {
+func (b *Book) GetId() int {
 	return b.id
 }
 
-func (b *Book) Name() string {
+func (b *Book) GetName() string {
 	return b.name
 }

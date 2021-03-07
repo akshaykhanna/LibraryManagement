@@ -14,15 +14,33 @@ func (l *Library) ViewBooks() string {
 	return ""
 }
 func (l *Library) AddBooks(book Book) *Library {
-	if !l.isBookPresent(book.Id()) {
+	if !l.isBookPresent(book.GetId()) {
 		l.books = append(l.books, book)
 	}
 	return l
 }
 
-func (l *Library) isBookPresent(id int) bool {
+func (l *Library) GetBook(bookId int) *Book {
 	for _, book := range l.books {
-		if book.Id() == id {
+		if book.GetId() == bookId {
+			return &book
+		}
+	}
+	return nil
+}
+
+func (l *Library) BorrowBook(bookId int) *Book {
+	if l.isBookPresent(bookId) {
+		book := l.GetBook(bookId)
+		book.SetAvailableCopies(book.GetAvailableCopies() - 1)
+		return book
+	}
+	return nil
+}
+
+func (l *Library) isBookPresent(bookId int) bool {
+	for _, book := range l.books {
+		if book.GetId() == bookId {
 			return true
 		}
 	}
