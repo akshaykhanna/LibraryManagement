@@ -1,5 +1,7 @@
 package book
 
+import "fmt"
+
 type Book struct {
 	id   int
 	name string
@@ -14,4 +16,8 @@ func (b *Book) GetId() int {
 
 func (b *Book) GetName() string {
 	return b.name
+}
+
+func (b *Book) View() string {
+	return fmt.Sprintf("Id: %d, Name: %s", b.id, b.name)
 }
