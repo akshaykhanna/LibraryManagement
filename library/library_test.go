@@ -2,6 +2,7 @@ package library
 
 import (
 	b "LibraryManagement/book"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -79,6 +80,25 @@ func TestBorrowBook_whenBookBorrowedShouldReduceItAvailableCount(t *testing.T) {
 	}
 }
 
+func TestReturnBook_shouldUpdateBookQuantityIfBookAlreadyThere(t *testing.T) {
+	setup()
+	returnedBook := b.NewBook(2, "B")
+	libReturnedBook := library.getLibBook(returnedBook.GetId())
+	assert.Equal(t, libReturnedBook.GetAvailableCopies(), 3)
+	library.ReturnBook(returnedBook)
+	assert.Equal(t, libReturnedBook.GetAvailableCopies(), 4)
+}
+
+func TestReturnBook_shouldAddNewBookQuantityIfBookNotPresent(t *testing.T) {
+	setup()
+	returnedBook := b.NewBook(3, "Monk who sold his ferrari")
+	assert.False(t, library.isBookPresent(returnedBook.GetId()))
+	library.ReturnBook(returnedBook)
+	assert.True(t, library.isBookPresent(returnedBook.GetId()))
+	libReturnedBook := library.getLibBook(returnedBook.GetId())
+	assert.Equal(t, libReturnedBook.GetAvailableCopies(), 1)
+}
+
 func TestCanBookBeBorrow_shouldReturnFalseIfBookIsNotPresent(t *testing.T) {
 	setup()
 	flag := library.CanBookBeBorrowed(3)
@@ -95,7 +115,7 @@ func TestCanBookBeBorrow_shouldReturnFalseIfBookIsNotAvailable(t *testing.T) {
 	library.getLibBook(borrowBookId).SetAvailableCopies(0)
 	flag := library.CanBookBeBorrowed(borrowBookId)
 	if flag {
-		t.Errorf("CanBookBeBorrowed failed, expected %v & got %v",
+		t.Errorf("canBookBeBorrowed failed, expected %v & got %v",
 			"book not to be borrowed when not present", "it can be borrowed")
 	}
 
@@ -106,7 +126,7 @@ func TestCanBookBeBorrow_shouldReturnTrueIfBookIsPresentAndAvailable(t *testing.
 	borrowBookId := 2
 	flag := library.CanBookBeBorrowed(borrowBookId)
 	if !flag {
-		t.Errorf("CanBookBeBorrowed failed, expected %v & got %v",
+		t.Errorf("canBookBeBorrowed failed, expected %v & got %v",
 			"book can be borrowed when present & available", " it can't be borrowed")
 	}
 
