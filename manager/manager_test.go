@@ -16,7 +16,7 @@ func getMockBooks() (*b.Book, *b.Book) {
 	bookB := b.NewBook(2, "B")
 	return bookA, bookB
 }
-func getMockLib(noOfCopiesForBookA int, noOfCopiesForBookB int) l.Library {
+func getMockLib(noOfCopiesForBookA int, noOfCopiesForBookB int) *l.Library {
 	bookA, bookB := getMockBooks()
 	myLib := l.NewLibrary()
 	if noOfCopiesForBookA > 0 {
@@ -28,7 +28,7 @@ func getMockLib(noOfCopiesForBookA int, noOfCopiesForBookB int) l.Library {
 	return myLib
 }
 
-func setupManger(library l.Library) {
+func setupManger(library *l.Library) {
 	manager = NewManager(library)
 }
 

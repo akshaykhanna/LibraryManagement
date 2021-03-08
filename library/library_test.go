@@ -9,7 +9,7 @@ import (
 var library Library
 
 func setup() {
-	library = NewLibrary()
+	library = *NewLibrary()
 	library.AddBook(b.NewBook(1, "A"), 5).AddBook(b.NewBook(2, "B"), 3)
 }
 

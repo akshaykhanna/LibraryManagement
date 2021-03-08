@@ -11,10 +11,10 @@ const (
 )
 
 type Manager struct {
-	library l.Library
+	library *l.Library
 }
 
-func NewManager(library l.Library) Manager {
+func NewManager(library *l.Library) Manager {
 	return Manager{library: library}
 }
 

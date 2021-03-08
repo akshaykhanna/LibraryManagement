@@ -9,8 +9,8 @@ type Library struct {
 	books []*libBook
 }
 
-func NewLibrary() Library {
-	return Library{[]*libBook{}}
+func NewLibrary() *Library {
+	return &Library{[]*libBook{}}
 }
 
 func GetBooksString(l *Library) string {
