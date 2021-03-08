@@ -68,7 +68,7 @@ func TestHandleBorrowing_managerShouldHandleBorrowing(t *testing.T) {
 func TestHandleReturn_managerShouldHandleReturnOfBookWhichNotPresentInLibrary(t *testing.T) {
 	setupReturnData()
 	_, bookB := getMockBooks()
-	user.AddBook(bookB)
+	user.BorrowBook(bookB)
 	assert.Equal(t, manager.library.ViewBooks(),
 		"\n List of books\n "+
 			"Id: 1, Name: A, AvailableCopies: 5")
@@ -84,7 +84,7 @@ func TestHandleReturn_managerShouldHandleReturnOfBookWhichNotPresentInLibrary(t 
 func TestHandleReturn_managerShouldHandleReturnOfBookWhichIsAlreadyPresentInLibrary(t *testing.T) {
 	setupReturnData()
 	bookA, _ := getMockBooks()
-	user.AddBook(bookA)
+	user.BorrowBook(bookA)
 	assert.Equal(t, manager.library.ViewBooks(),
 		"\n List of books\n "+
 			"Id: 1, Name: A, AvailableCopies: 5")

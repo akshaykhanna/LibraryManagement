@@ -21,7 +21,7 @@ func NewManager(library *l.Library) Manager {
 func (m *Manager) HandleBorrow(user *u.User, bookId int) error {
 	if m.canBookBeBorrowed(user, bookId) {
 		borrowedBook := m.library.BorrowBook(bookId)
-		user.AddBook(borrowedBook)
+		user.BorrowBook(borrowedBook)
 		return nil
 	}
 	return errors.New("book can't be borrowed")
@@ -29,7 +29,7 @@ func (m *Manager) HandleBorrow(user *u.User, bookId int) error {
 
 func (m *Manager) HandleReturn(user *u.User, bookId int) error {
 	if m.canBookBeReturn(user, bookId) {
-		returnedBook := user.RemoveBook(bookId)
+		returnedBook := user.ReturnBook(bookId)
 		m.library.ReturnBook(returnedBook)
 		return nil
 	}

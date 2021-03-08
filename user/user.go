@@ -18,12 +18,12 @@ func (u *User) GetName() string {
 func (u *User) GetBooks() []*b.Book {
 	return u.books
 }
-func (u *User) AddBook(book *b.Book) *User {
+func (u *User) BorrowBook(book *b.Book) *User {
 	u.books = append(u.books, book)
 	return u
 }
 
-func (u *User) RemoveBook(bookId int) *b.Book {
+func (u *User) ReturnBook(bookId int) *b.Book {
 	var newBooks []*b.Book
 	var returnedBook *b.Book
 	for _, book := range u.books {
