@@ -20,6 +20,17 @@ func TestViewBooks_shouldReturnEmptyWhenNoBooks(t *testing.T) {
 		t.Errorf("ViewBooks failed, expected %v & got %v", expectedBooksString, actualBooksString)
 	}
 }
+func TestViewBooks_shouldReturnBooksStringWhenBooksArePresent(t *testing.T) {
+	setup()
+	actualBooksString := library.ViewBooks()
+	const expectedBooksString = `
+ List of books
+ Id: 1, Name: A, AvailableCopies: 5, TotalCopies: 5
+ Id: 2, Name: B, AvailableCopies: 3, TotalCopies: 3`
+	if actualBooksString != expectedBooksString {
+		t.Errorf("ViewBooks failed, expected %v & got %v", expectedBooksString, actualBooksString)
+	}
+}
 
 func TestViewBooks_shouldNotReturnEmptyWhenBooksAreThere(t *testing.T) {
 	library := NewLibrary()

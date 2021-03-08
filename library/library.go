@@ -1,6 +1,9 @@
 package library
 
-import b "LibraryManagement/book"
+import (
+	b "LibraryManagement/book"
+	"fmt"
+)
 
 type Library struct {
 	books []*libBook
@@ -9,12 +12,22 @@ type Library struct {
 func NewLibrary() Library {
 	return Library{[]*libBook{}}
 }
+
+func GetBooksString(l *Library) string {
+	booksString := fmt.Sprintf("\n %s", "List of books")
+	for _, book := range l.books {
+		booksString = booksString + fmt.Sprintf("\n %s", book.View())
+	}
+	return booksString
+}
+
 func (l *Library) ViewBooks() string {
 	if len(l.books) == 0 {
 		return "Library is empty"
 	}
-	return ""
+	return GetBooksString(l)
 }
+
 func (l *Library) AddBook(book *b.Book, noOfCopies int) *Library {
 	if !l.isBookPresent(book.GetId()) {
 		l.books = append(l.books, NewLibBook(book.GetId(), book.GetName(), noOfCopies))
