@@ -22,6 +22,7 @@ func TestAddBook_whenBookBorrowedShouldAddItToUserBook(t *testing.T) {
 	}
 }
 func TestRemoveBook_ShouldRemoveBookFromUserBooks(t *testing.T) {
+	setup()
 	book := b.NewBook(1, "A")
 	user := user.AddBook(book)
 	assert.Equal(t, len(user.books), 1)

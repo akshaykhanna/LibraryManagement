@@ -19,7 +19,7 @@ func NewManager(library l.Library) Manager {
 }
 
 func (m *Manager) HandleBorrow(user *u.User, bookId int) error {
-	if m.CanBookBeBorrowed(user, bookId) {
+	if m.canBookBeBorrowed(user, bookId) {
 		borrowedBook := m.library.BorrowBook(bookId)
 		user.AddBook(borrowedBook)
 		return nil
@@ -27,9 +27,23 @@ func (m *Manager) HandleBorrow(user *u.User, bookId int) error {
 	return errors.New("book can't be borrowed")
 }
 
-func (m *Manager) CanBookBeBorrowed(user *u.User, bookId int) bool {
+func (m *Manager) HandleReturn(user *u.User, bookId int) error {
+	if m.canBookBeReturn(user, bookId) {
+		returnedBook := user.RemoveBook(bookId)
+		m.library.ReturnBook(returnedBook)
+		return nil
+	}
+	return errors.New("book can't be returned")
+}
+
+func (m *Manager) canBookBeBorrowed(user *u.User, bookId int) bool {
 	return m.library.CanBookBeBorrowed(bookId) && canUserBorrowBook(user, bookId)
 }
+
+func (m *Manager) canBookBeReturn(user *u.User, bookId int) bool {
+	return user.IsHavingBook(bookId)
+}
+
 func canUserBorrowBook(user *u.User, bookId int) bool {
 	return !user.IsHavingBook(bookId) && len(user.GetBooks()) < MAX_BOOKS_ALLOWED_PER_PERSON
 }

@@ -16,23 +16,40 @@ func getMockBooks() (*b.Book, *b.Book) {
 	bookB := b.NewBook(2, "B")
 	return bookA, bookB
 }
-
-func setupMangerAndUser(library l.Library) {
-	manager = NewManager(library)
-	user = u.NewUser("Jack")
-}
-
-func setupBorrowData() (*b.Book, *b.Book) {
+func getMockLib(noOfCopiesForBookA int, noOfCopiesForBookB int) l.Library {
 	bookA, bookB := getMockBooks()
 	myLib := l.NewLibrary()
-	myLib.AddBook(bookA, 5)
-	myLib.AddBook(bookB, 3)
-	setupMangerAndUser(myLib)
-	return bookA, bookB
+	if noOfCopiesForBookA > 0 {
+		myLib.AddBook(bookA, noOfCopiesForBookA)
+	}
+	if noOfCopiesForBookB > 0 {
+		myLib.AddBook(bookB, noOfCopiesForBookB)
+	}
+	return myLib
+}
+
+func setupManger(library l.Library) {
+	manager = NewManager(library)
+}
+
+func setupUser(name string) {
+	user = u.NewUser(name)
+}
+
+func setupBorrowData() {
+	setupManger(getMockLib(5, 3))
+	setupUser("Jack")
+}
+
+func setupReturnData() {
+	setupManger(getMockLib(5, 0))
+	setupUser("Jack")
+
 }
 
 func TestHandleBorrowing_managerShouldHandleBorrowing(t *testing.T) {
-	_, bookB := setupBorrowData()
+	setupBorrowData()
+	_, bookB := getMockBooks()
 	assert.Equal(t, manager.library.ViewBooks(),
 		"\n List of books\n "+
 			"Id: 1, Name: A, AvailableCopies: 5\n "+
@@ -46,4 +63,35 @@ func TestHandleBorrowing_managerShouldHandleBorrowing(t *testing.T) {
 		"\n List of books\n "+
 			"Id: 1, Name: A, AvailableCopies: 5\n "+
 			"Id: 2, Name: B, AvailableCopies: 2")
+}
+
+func TestHandleReturn_managerShouldHandleReturnOfBookWhichNotPresentInLibrary(t *testing.T) {
+	setupReturnData()
+	_, bookB := getMockBooks()
+	user.AddBook(bookB)
+	assert.Equal(t, manager.library.ViewBooks(),
+		"\n List of books\n "+
+			"Id: 1, Name: A, AvailableCopies: 5")
+	err := manager.HandleReturn(&user, bookB.GetId())
+	assert.Nil(t, err)
+	assert.Equal(t, len(user.GetBooks()), 0)
+	assert.Equal(t, manager.library.ViewBooks(),
+		"\n List of books\n "+
+			"Id: 1, Name: A, AvailableCopies: 5\n "+
+			"Id: 2, Name: B, AvailableCopies: 1")
+}
+
+func TestHandleReturn_managerShouldHandleReturnOfBookWhichIsAlreadyPresentInLibrary(t *testing.T) {
+	setupReturnData()
+	bookA, _ := getMockBooks()
+	user.AddBook(bookA)
+	assert.Equal(t, manager.library.ViewBooks(),
+		"\n List of books\n "+
+			"Id: 1, Name: A, AvailableCopies: 5")
+	err := manager.HandleReturn(&user, bookA.GetId())
+	assert.Nil(t, err)
+	assert.Equal(t, len(user.GetBooks()), 0)
+	assert.Equal(t, manager.library.ViewBooks(),
+		"\n List of books\n "+
+			"Id: 1, Name: A, AvailableCopies: 6")
 }
