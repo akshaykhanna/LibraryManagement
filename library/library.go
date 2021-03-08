@@ -35,6 +35,20 @@ func (l *Library) AddBook(book *b.Book, copies int) *Library {
 	return l
 }
 
+func (l *Library) removeBook(bookId int) *libBook {
+	var newBooks []*libBook
+	var removedBook *libBook
+	for _, book := range l.books {
+		if book.GetId() != bookId {
+			newBooks = append(newBooks, book)
+		} else {
+			removedBook = book
+		}
+	}
+	l.books = newBooks
+	return removedBook
+}
+
 func (l *Library) GetBook(bookId int) *b.Book {
 	for _, book := range l.books {
 		if book.GetId() == bookId {
@@ -47,7 +61,11 @@ func (l *Library) GetBook(bookId int) *b.Book {
 func (l *Library) BorrowBook(bookId int) *b.Book {
 	if l.CanBookBeBorrowed(bookId) {
 		book := l.getLibBook(bookId)
-		book.SetAvailableCopies(book.GetAvailableCopies() - 1)
+		if book.availableCopies == 1 {
+			l.removeBook(bookId)
+		} else {
+			book.SetAvailableCopies(book.GetAvailableCopies() - 1)
+		}
 		return b.NewBook(book.GetId(), book.GetName())
 	}
 	return nil

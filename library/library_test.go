@@ -69,15 +69,25 @@ func TestGetBook_shouldReturnBookWithPassedId(t *testing.T) {
 
 func TestBorrowBook_whenBookBorrowedShouldReduceItAvailableCount(t *testing.T) {
 	setup()
-	borrowedBook := library.BorrowBook(1)
-	libBorrowedBook := library.getLibBook(1)
-	expectedAvailableCopies := 4
-	if expectedAvailableCopies != libBorrowedBook.availableCopies {
-		t.Errorf("BorrowBooks failed, expected %v & got %d", expectedAvailableCopies, libBorrowedBook.availableCopies)
-	}
-	if borrowedBook.GetName() != "A" && borrowedBook.GetId() != 1 {
-		t.Errorf("BorrowBooks failed, expected %v & got %v", b.NewBook(1, "A"), borrowedBook)
-	}
+	borrowedBookId := 1
+	libBorrowedBook := library.getLibBook(borrowedBookId)
+	assert.Equal(t, libBorrowedBook.availableCopies, 5)
+	borrowedBook := library.BorrowBook(borrowedBookId)
+	assert.Equal(t, libBorrowedBook.availableCopies, 4)
+	assert.Equal(t, borrowedBook.GetId(), borrowedBookId)
+	assert.Equal(t, borrowedBook.GetName(), "A")
+}
+
+func TestBorrowBook_ShouldRemoveBookFromLibIfOnlyOneCopyPresentBeforeBorrowing(t *testing.T) {
+	setup()
+	borrowedBookId := 3
+	library.AddBook(b.NewBook(borrowedBookId, "C"), 1)
+	libBorrowedBook := library.getLibBook(borrowedBookId)
+	assert.Equal(t, libBorrowedBook.availableCopies, 1)
+	borrowedBook := library.BorrowBook(borrowedBookId)
+	assert.False(t, library.isBookPresent(borrowedBookId))
+	assert.Equal(t, borrowedBook.GetId(), borrowedBookId)
+	assert.Equal(t, borrowedBook.GetName(), "C")
 }
 
 func TestReturnBook_shouldUpdateBookQuantityIfBookAlreadyThere(t *testing.T) {
