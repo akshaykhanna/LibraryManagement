@@ -11,6 +11,10 @@ func NewUser(name string) *User {
 	return &User{name, []*b.Book{}}
 }
 
+func (u *User) GetName() string {
+	return u.name
+}
+
 func (u *User) GetBooks() []*b.Book {
 	return u.books
 }
