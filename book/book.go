@@ -5,8 +5,8 @@ type Book struct {
 	name string
 }
 
-func NewBook(id int, name string) Book {
-	return Book{id, name}
+func NewBook(id int, name string) *Book {
+	return &Book{id, name}
 }
 func (b *Book) GetId() int {
 	return b.id

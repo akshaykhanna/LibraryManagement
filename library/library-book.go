@@ -1,21 +1,24 @@
 package library
 
-import "LibraryManagement/book"
+import b "LibraryManagement/book"
 
-type Book struct {
-	book.Book
+type libBook struct {
+	*b.Book
 	totalCopies     int
 	availableCopies int
 }
 
-func NewBook(id int, name string, totalCopies int) Book {
-	return Book{book.NewBook(id, name), totalCopies, totalCopies}
+func NewLibBook(id int, name string, totalCopies int) *libBook {
+	return &libBook{b.NewBook(id, name), totalCopies, totalCopies}
 }
 
-func (b *Book) SetAvailableCopies(count int) {
+func (b *libBook) SetAvailableCopies(count int) {
 	b.availableCopies = count
 }
 
-func (b *Book) GetAvailableCopies() int {
+func (b *libBook) GetAvailableCopies() int {
 	return b.availableCopies
+}
+func (b *libBook) IsBookAvailable() bool {
+	return b.availableCopies > 0
 }
