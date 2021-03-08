@@ -19,6 +19,18 @@ func (u *User) AddBook(book *b.Book) *User {
 	return u
 }
 
+func (u *User) RemoveBook(bookId int) *User {
+	newBooks := []*b.Book{}
+	for _, book := range u.books {
+		if book.GetId() != bookId {
+			newBooks = append(newBooks, book)
+
+		}
+	}
+	u.books = newBooks
+	return u
+}
+
 func (u *User) IsHavingBook(bookId int) bool {
 	for _, book := range u.books {
 		if book.GetId() == bookId {
