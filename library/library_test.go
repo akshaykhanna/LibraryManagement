@@ -67,3 +67,36 @@ func TestBorrowBook_whenBookBorrowedShouldReduceItAvailableCount(t *testing.T) {
 		t.Errorf("BorrowBooks failed, expected %v & got %v", b.NewBook(1, "A"), borrowedBook)
 	}
 }
+
+func TestCanBookBeBorrow_shouldReturnFalseIfBookIsNotPresent(t *testing.T) {
+	setup()
+	flag := library.CanBookBeBorrowed(3)
+	if flag {
+		t.Errorf("CanBookBeBorrowed failed, expected %v & got %v",
+			"book not to be borrowed when not present", "but it is borrowed")
+	}
+
+}
+
+func TestCanBookBeBorrow_shouldReturnFalseIfBookIsNotAvailable(t *testing.T) {
+	setup()
+	borrowBookId := 2
+	library.getLibBook(borrowBookId).SetAvailableCopies(0)
+	flag := library.CanBookBeBorrowed(borrowBookId)
+	if flag {
+		t.Errorf("CanBookBeBorrowed failed, expected %v & got %v",
+			"book not to be borrowed when not present", "it can be borrowed")
+	}
+
+}
+
+func TestCanBookBeBorrow_shouldReturnTrueIfBookIsPresentAndAvailable(t *testing.T) {
+	setup()
+	borrowBookId := 2
+	flag := library.CanBookBeBorrowed(borrowBookId)
+	if !flag {
+		t.Errorf("CanBookBeBorrowed failed, expected %v & got %v",
+			"book can be borrowed when present & available", " it can't be borrowed")
+	}
+
+}

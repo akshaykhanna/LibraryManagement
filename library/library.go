@@ -32,7 +32,7 @@ func (l *Library) GetBook(bookId int) *b.Book {
 }
 
 func (l *Library) BorrowBook(bookId int) *b.Book {
-	if l.isBookPresent(bookId) {
+	if l.CanBookBeBorrowed(bookId) {
 		book := l.getLibBook(bookId)
 		book.SetAvailableCopies(book.GetAvailableCopies() - 1)
 		return b.NewBook(book.GetId(), book.GetName())
@@ -58,6 +58,6 @@ func (l *Library) isBookPresent(bookId int) bool {
 	return false
 }
 
-//func (l *Library) CanBookBeBorrowed(bookId int) bool {
-//	return l.isBookPresent(bookId) && l.GetBook(bookId).IsBookAvailable()
-//}
+func (l *Library) CanBookBeBorrowed(bookId int) bool {
+	return l.isBookPresent(bookId) && l.getLibBook(bookId).IsBookAvailable()
+}
