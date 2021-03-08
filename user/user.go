@@ -7,8 +7,8 @@ type User struct {
 	books []*b.Book
 }
 
-func NewUser(name string) User {
-	return User{name, []*b.Book{}}
+func NewUser(name string) *User {
+	return &User{name, []*b.Book{}}
 }
 
 func (u *User) GetBooks() []*b.Book {

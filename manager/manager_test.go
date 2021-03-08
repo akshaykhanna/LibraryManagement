@@ -33,7 +33,7 @@ func setupManger(library *l.Library) {
 }
 
 func setupUser(name string) {
-	user = u.NewUser(name)
+	user = *u.NewUser(name)
 }
 
 func setupBorrowData() {

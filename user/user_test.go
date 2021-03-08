@@ -9,7 +9,7 @@ import (
 var user User
 
 func setup() {
-	user = NewUser("Jack")
+	user = *NewUser("Jack")
 }
 
 func TestAddBook_whenBookBorrowedShouldAddItToUserBook(t *testing.T) {
