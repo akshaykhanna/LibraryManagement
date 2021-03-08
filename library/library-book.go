@@ -1,6 +1,9 @@
 package library
 
-import b "LibraryManagement/book"
+import (
+	b "LibraryManagement/book"
+	"fmt"
+)
 
 type libBook struct {
 	*b.Book
@@ -21,4 +24,9 @@ func (b *libBook) GetAvailableCopies() int {
 }
 func (b *libBook) IsBookAvailable() bool {
 	return b.availableCopies > 0
+}
+
+func (b *libBook) View() string {
+	return fmt.Sprintf("%s, "+
+		"AvailableCopies: %d, TotalCopies: %d", b.Book.View(), b.availableCopies, b.totalCopies)
 }
