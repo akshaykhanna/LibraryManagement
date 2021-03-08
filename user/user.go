@@ -14,7 +14,7 @@ func NewUser(name string) User {
 func (u *User) GetBooks() []*b.Book {
 	return u.books
 }
-func (u *User) BorrowBook(book *b.Book) *User {
+func (u *User) AddBook(book *b.Book) *User {
 	u.books = append(u.books, book)
 	return u
 }

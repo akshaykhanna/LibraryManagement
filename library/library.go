@@ -40,6 +40,10 @@ func (l *Library) BorrowBook(bookId int) *b.Book {
 	return nil
 }
 
+func (l *Library) CanBookBeBorrowed(bookId int) bool {
+	return l.isBookPresent(bookId) && l.getLibBook(bookId).IsBookAvailable()
+}
+
 func (l *Library) getLibBook(bookId int) *libBook {
 	for _, book := range l.books {
 		if book.GetId() == bookId {
@@ -56,8 +60,4 @@ func (l *Library) isBookPresent(bookId int) bool {
 		}
 	}
 	return false
-}
-
-func (l *Library) CanBookBeBorrowed(bookId int) bool {
-	return l.isBookPresent(bookId) && l.getLibBook(bookId).IsBookAvailable()
 }
