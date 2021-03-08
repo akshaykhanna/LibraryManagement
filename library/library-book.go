@@ -7,12 +7,11 @@ import (
 
 type libBook struct {
 	*b.Book
-	totalCopies     int
 	availableCopies int
 }
 
-func NewLibBook(id int, name string, totalCopies int) *libBook {
-	return &libBook{b.NewBook(id, name), totalCopies, totalCopies}
+func NewLibBook(id int, name string, availableCopies int) *libBook {
+	return &libBook{b.NewBook(id, name), availableCopies}
 }
 
 func (b *libBook) SetAvailableCopies(count int) {
@@ -28,5 +27,5 @@ func (b *libBook) IsBookAvailable() bool {
 
 func (b *libBook) View() string {
 	return fmt.Sprintf("%s, "+
-		"AvailableCopies: %d, TotalCopies: %d", b.Book.View(), b.availableCopies, b.totalCopies)
+		"AvailableCopies: %d", b.Book.View(), b.availableCopies)
 }

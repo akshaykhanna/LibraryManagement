@@ -25,8 +25,8 @@ func TestViewBooks_shouldReturnBooksStringWhenBooksArePresent(t *testing.T) {
 	actualBooksString := library.ViewBooks()
 	const expectedBooksString = `
  List of books
- Id: 1, Name: A, AvailableCopies: 5, TotalCopies: 5
- Id: 2, Name: B, AvailableCopies: 3, TotalCopies: 3`
+ Id: 1, Name: A, AvailableCopies: 5
+ Id: 2, Name: B, AvailableCopies: 3`
 	if actualBooksString != expectedBooksString {
 		t.Errorf("ViewBooks failed, expected %v & got %v", expectedBooksString, actualBooksString)
 	}

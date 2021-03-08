@@ -28,9 +28,9 @@ func (l *Library) ViewBooks() string {
 	return GetBooksString(l)
 }
 
-func (l *Library) AddBook(book *b.Book, noOfCopies int) *Library {
+func (l *Library) AddBook(book *b.Book, copies int) *Library {
 	if !l.isBookPresent(book.GetId()) {
-		l.books = append(l.books, NewLibBook(book.GetId(), book.GetName(), noOfCopies))
+		l.books = append(l.books, NewLibBook(book.GetId(), book.GetName(), copies))
 	}
 	return l
 }

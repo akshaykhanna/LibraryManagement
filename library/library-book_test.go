@@ -22,5 +22,5 @@ func TestBook_IsBookAvailable_shouldReturnFalseIfNotAvailable(t *testing.T) {
 
 func TestViewLibBook_shouldReturnLibBookString(t *testing.T) {
 	book := NewLibBook(1, "Atomic Habits", 5)
-	assert.Equal(t, book.View(), "Id: 1, Name: Atomic Habits, AvailableCopies: 5, TotalCopies: 5")
+	assert.Equal(t, book.View(), "Id: 1, Name: Atomic Habits, AvailableCopies: 5")
 }
