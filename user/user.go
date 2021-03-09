@@ -4,7 +4,7 @@ import b "LibraryManagement/book"
 
 type User struct {
 	name  string
-	books []*b.Book
+	books b.Books
 }
 
 func NewUser(name string) *User {
@@ -19,22 +19,12 @@ func (u *User) GetBooks() []*b.Book {
 	return u.books
 }
 func (u *User) BorrowBook(book *b.Book) *User {
-	u.books = append(u.books, book)
+	u.books.AddBook(book)
 	return u
 }
 
 func (u *User) ReturnBook(bookId int) *b.Book {
-	var newBooks []*b.Book
-	var returnedBook *b.Book
-	for _, book := range u.books {
-		if book.GetId() != bookId {
-			newBooks = append(newBooks, book)
-		} else {
-			returnedBook = book
-		}
-	}
-	u.books = newBooks
-	return returnedBook
+	return u.books.RemoveBook(bookId)
 }
 
 func (u *User) IsHavingBook(bookId int) bool {
