@@ -50,19 +50,19 @@ func setupReturnData() {
 func TestHandleBorrowing_managerShouldHandleBorrowing(t *testing.T) {
 	setupBorrowData()
 	_, bookB := getMockBooks()
-	assert.Equal(t, manager.library.ViewBooks(),
-		"\n List of books\n "+
+	assert.Equal(t,
+		"Library: List of books\n "+
 			"Id: 1, Name: A, AvailableCopies: 5\n "+
-			"Id: 2, Name: B, AvailableCopies: 3")
+			"Id: 2, Name: B, AvailableCopies: 3", manager.library.ViewBooks())
 	err := manager.HandleBorrow(&user, bookB.GetId())
 	assert.Nil(t, err)
 	assert.Equal(t, len(user.GetBooks()), 1)
 	assert.Equal(t, user.GetBooks()[0].GetId(), bookB.GetId())
 	assert.Equal(t, user.GetBooks()[0].GetName(), bookB.GetName())
-	assert.Equal(t, manager.library.ViewBooks(),
-		"\n List of books\n "+
+	assert.Equal(t,
+		"Library: List of books\n "+
 			"Id: 1, Name: A, AvailableCopies: 5\n "+
-			"Id: 2, Name: B, AvailableCopies: 2")
+			"Id: 2, Name: B, AvailableCopies: 2", manager.library.ViewBooks())
 }
 
 func TestHandleReturn_managerShouldHandleReturnOfBookWhichNotPresentInLibrary(t *testing.T) {
@@ -70,13 +70,13 @@ func TestHandleReturn_managerShouldHandleReturnOfBookWhichNotPresentInLibrary(t 
 	_, bookB := getMockBooks()
 	user.BorrowBook(bookB)
 	assert.Equal(t, manager.library.ViewBooks(),
-		"\n List of books\n "+
+		"Library: List of books\n "+
 			"Id: 1, Name: A, AvailableCopies: 5")
 	err := manager.HandleReturn(&user, bookB.GetId())
 	assert.Nil(t, err)
 	assert.Equal(t, len(user.GetBooks()), 0)
 	assert.Equal(t, manager.library.ViewBooks(),
-		"\n List of books\n "+
+		"Library: List of books\n "+
 			"Id: 1, Name: A, AvailableCopies: 5\n "+
 			"Id: 2, Name: B, AvailableCopies: 1")
 }
@@ -86,12 +86,12 @@ func TestHandleReturn_managerShouldHandleReturnOfBookWhichIsAlreadyPresentInLibr
 	bookA, _ := getMockBooks()
 	user.BorrowBook(bookA)
 	assert.Equal(t, manager.library.ViewBooks(),
-		"\n List of books\n "+
+		"Library: List of books\n "+
 			"Id: 1, Name: A, AvailableCopies: 5")
 	err := manager.HandleReturn(&user, bookA.GetId())
 	assert.Nil(t, err)
 	assert.Equal(t, len(user.GetBooks()), 0)
 	assert.Equal(t, manager.library.ViewBooks(),
-		"\n List of books\n "+
+		"Library: List of books\n "+
 			"Id: 1, Name: A, AvailableCopies: 6")
 }
