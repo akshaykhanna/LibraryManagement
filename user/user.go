@@ -18,6 +18,7 @@ func (u *User) GetName() string {
 func (u *User) GetBooks() []*b.Book {
 	return u.books
 }
+
 func (u *User) BorrowBook(book *b.Book) *User {
 	u.books.AddBook(book)
 	return u

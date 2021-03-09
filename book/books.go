@@ -1,5 +1,7 @@
 package book
 
+import "fmt"
+
 type Books []*Book
 
 func (b *Books) AddBook(book *Book) *Books {
@@ -19,4 +21,15 @@ func (b *Books) RemoveBook(bookId int) *Book {
 	}
 	*b = newBooks
 	return removedBook
+}
+
+func (b *Books) GetBooksString() string {
+	if len(*b) == 0 {
+		return "No book found"
+	}
+	booksString := fmt.Sprintf("\n %s", "List of books")
+	for _, book := range *b {
+		booksString = booksString + fmt.Sprintf("\n %s", book.View())
+	}
+	return booksString
 }
