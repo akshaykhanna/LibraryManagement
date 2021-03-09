@@ -36,3 +36,7 @@ func (u *User) IsHavingBook(bookId int) bool {
 	}
 	return false
 }
+
+func (u *User) ViewBooks() string {
+	return "User: " + u.books.GetBooksString()
+}

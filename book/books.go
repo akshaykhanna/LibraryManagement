@@ -27,7 +27,7 @@ func (b *Books) GetBooksString() string {
 	if len(*b) == 0 {
 		return "No book found"
 	}
-	booksString := fmt.Sprintf("\n %s", "List of books")
+	booksString := fmt.Sprintf("%s", "List of books")
 	for _, book := range *b {
 		booksString = booksString + fmt.Sprintf("\n %s", book.View())
 	}

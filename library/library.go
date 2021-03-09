@@ -13,7 +13,7 @@ func NewLibrary() *Library {
 }
 
 func (l *Library) ViewBooks() string {
-	return l.books.getBooksString()
+	return "Library: " + l.books.getBooksString()
 }
 
 func (l *Library) AddBook(book *b.Book, copies int) *Library {

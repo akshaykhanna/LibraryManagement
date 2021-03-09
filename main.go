@@ -38,6 +38,7 @@ func borrowBook(myManger manager.Manager, user *user.User, myLib *library.Librar
 	} else {
 		fmt.Println("Borrowing successfull !")
 		fmt.Println(myLib.ViewBooks())
+		fmt.Println(user.ViewBooks())
 	}
 }
 
@@ -51,5 +52,6 @@ func returnBook(myManger manager.Manager, user *user.User, myLib *library.Librar
 	} else {
 		fmt.Println("Return successfull !")
 		fmt.Println(myLib.ViewBooks())
+		fmt.Println(user.ViewBooks())
 	}
 }
