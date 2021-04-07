@@ -40,7 +40,7 @@ func TestUser_IsHavingBook_ShouldReturnTrueIfUserHasThatBook(t *testing.T) {
 	}
 }
 
-func TestUser_IsHavingBook_ShouldReturnFalsefUserDoNotHaveThatBook(t *testing.T) {
+func TestUser_IsHavingBook_ShouldReturnFalseIfUserDoNotHaveThatBook(t *testing.T) {
 	setup()
 	book := b.NewBook(1, "A")
 	flag := user.IsHavingBook(book.GetId())

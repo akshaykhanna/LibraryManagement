@@ -29,10 +29,8 @@ func (u *User) ReturnBook(bookId int) *b.Book {
 }
 
 func (u *User) IsHavingBook(bookId int) bool {
-	for _, book := range u.books {
-		if book.GetId() == bookId {
-			return true
-		}
+	if u.books.GetBook(bookId) != nil {
+		return true
 	}
 	return false
 }
