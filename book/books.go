@@ -33,3 +33,12 @@ func (b *Books) GetBooksString() string {
 	}
 	return booksString
 }
+
+func (b *Books) GetBook(bookId int) *Book {
+	for _, book := range *b {
+		if book.id == bookId {
+			return book
+		}
+	}
+	return nil
+}
