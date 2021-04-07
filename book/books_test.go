@@ -7,7 +7,7 @@ import (
 
 var books Books
 
-func setuBopks() (*Book, *Book) {
+func setupBooks() (*Book, *Book) {
 	books = Books{}
 	book1 := NewBook(1, "A")
 	book2 := NewBook(2, "B")
@@ -16,31 +16,31 @@ func setuBopks() (*Book, *Book) {
 }
 
 func TestBooks_ShouldAddBooks(t *testing.T) {
-	setuBopks()
+	setupBooks()
 	book3 := NewBook(3, "Zero To One")
 	books.AddBook(book3)
 	assert.Equal(t, 3, len(books))
 }
 
 func TestBooks_ShouldRemoveBook(t *testing.T) {
-	setuBopks()
+	setupBooks()
 	books.RemoveBook(1)
 	assert.Equal(t, 1, len(books))
 }
 
 func TestBooks_ShouldGetBooksString(t *testing.T) {
-	setuBopks()
+	setupBooks()
 	expectedString := "List of books\n Id: 1, Name: A\n Id: 2, Name: B"
 	assert.Equal(t, expectedString, books.GetBooksString())
 }
 
 func TestBooks_ShouldGetABook(t *testing.T) {
-	book1, _ := setuBopks()
+	book1, _ := setupBooks()
 	expectedBook := book1
 	assert.Equal(t, expectedBook, books.GetBook(book1.id))
 }
 
 func TestBooks_ShouldReturnNilIfBookNotPresent(t *testing.T) {
-	setuBopks()
+	setupBooks()
 	assert.Nil(t, books.GetBook(3))
 }
